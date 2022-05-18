@@ -21,8 +21,14 @@ export default function Login() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const response = await apiLogin(`${data.get('email')}`, `${data.get('password')}`);
-    if (response.status >= 200 && response.status < 300) navigate('/')
+    const crypto = require('crypto');
+    
+    //please confirm consistant result with same password
+    const hash = crypto.createHash(`sha512`, data.get('password'));  
+    const hashResult = hash.digest('hex'); //should return hexadecimal
+    console.log(hashResult);
+    const response = await apiLogin(`${data.get('email')}`, `${hashResult}`);
+    if (response.status >= 200 && response.status < 300) navigate('/');
   };
 
   return (
