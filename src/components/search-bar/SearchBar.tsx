@@ -2,12 +2,13 @@ import { styled, alpha } from '@mui/material/styles';
 import { createTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import { hexToRgb, rgbToHex } from '@material-ui/core';
+import { rgbToHex } from '@material-ui/core';
 
 
 
-export default function SearchBar() {
+export default function SearchBar(props = {}) {
 
+  //const theme = createTheme(); /*//The end goal. Should import the global styles?
   const theme = createTheme({
     palette: {
       common: {
@@ -15,6 +16,7 @@ export default function SearchBar() {
       },
     },
   });
+  //*/
 
   const Search = styled('div')(({ theme }) => ({
     position: 'relative',
