@@ -1,30 +1,19 @@
 import { styled, alpha } from '@mui/material/styles';
-import { createTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
-import { rgbToHex } from '@material-ui/core';
 
 
 
 export default function SearchBar(props = {}) {
 
-  //const theme = createTheme(); /*//The end goal. Should import the global styles?
-  const theme = createTheme({
-    palette: {
-      common: {
-        white: rgbToHex("rgb(185,185,186)")
-      },
-    },
-  });
-  //*/
-
   const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.primary.dark, 0.15),
     '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
+      backgroundColor: alpha(theme.palette.primary.dark, 0.25),
     },
+    /*color: theme.palette.primary.contrastText,*/
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: '100%',
@@ -59,7 +48,7 @@ export default function SearchBar(props = {}) {
   }));
 
   return (<>
-    <Search theme={theme}>
+    <Search>
       <SearchIconWrapper>
         <SearchIcon />
       </SearchIconWrapper>
