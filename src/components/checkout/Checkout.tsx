@@ -1,5 +1,4 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Container from '@mui/material/Container';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,7 +7,6 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
@@ -40,7 +38,6 @@ let paymentDetail = [
   { name: 'Expiry date', detail: '' },
 ];
 
-const theme = createTheme();
 
 export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -77,11 +74,10 @@ export default function Checkout() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <>
       <AppBar
         position="absolute"
-        color="default"
+        color='secondary'
         elevation={0}
         sx={{
           position: 'relative',
@@ -126,6 +122,6 @@ export default function Checkout() {
           </React.Fragment>
         </Paper>
       </Container>
-    </ThemeProvider>
+    </>
   );
 }

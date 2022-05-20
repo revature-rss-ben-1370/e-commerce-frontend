@@ -47,9 +47,9 @@ const Navbar = () => {
         <Left>
         <Logo onClick={() => {navigate('/')}}>Revature Swag Shop</Logo>
         </Left>
-        
+
         <Right>
-        <SearchBar/>
+          <SearchBar/>
           <MenuItem onClick={() => {navigate('/register')}}>REGISTER</MenuItem>
           <MenuItem onClick={() => {navigate('/login')}}>SIGN IN</MenuItem>
           <MenuItem onClick={() => {navigate('/cart')}}>
@@ -57,9 +57,8 @@ const Navbar = () => {
               <ShoppingCartOutlined />
             </Badge>
           </MenuItem>
-          
         </Right>
-        
+
       </Wrapper>
     </Container>
   );

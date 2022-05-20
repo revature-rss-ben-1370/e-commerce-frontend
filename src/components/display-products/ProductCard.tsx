@@ -2,7 +2,7 @@ import {
     SearchOutlined,
     ShoppingCartOutlined,
   } from "@material-ui/icons";
-import { useContext } from "react";
+import { useState, useContext, ChangeEvent } from "react";
   import styled from "styled-components";
 import { CartContext } from "../../context/cart.context";
 import Product from "../../models/Product";
@@ -66,6 +66,10 @@ import Product from "../../models/Product";
       transform: scale(1.1);
     }
   `;
+
+  const CartQuantityInput = styled.input`
+    width: 40px
+  `;
   
   interface productProps {
       product: Product,
@@ -74,6 +78,21 @@ import Product from "../../models/Product";
 
   export const ProductCard = (props: productProps) => {
     const { cart, setCart } = useContext(CartContext);
+    const [cartQuantity, setCartQuantity] = useState(1);
+    const [showCartQuantityInput, setShowCartQuantityInput] = useState(false);
+
+
+    function updateShowCartQuantityInput(){
+      setShowCartQuantityInput(true)
+    }
+
+    function hideShowCartQuantityInput(){
+      setShowCartQuantityInput(false)
+    }
+
+    function updateQuantity(event: ChangeEvent<HTMLInputElement>){
+      setCartQuantity(Number(event.target.value))
+    }
 
     const addItemToCart = (product: Product) => {
 
@@ -92,10 +111,13 @@ import Product from "../../models/Product";
       <Container>
         <Circle />
         <Image src={props.product.image} />
-        <Info>
-          <Icon>
-            <ShoppingCartOutlined onClick={() => {addItemToCart({...props.product, quantity: 1})}} />
+        <Info onMouseLeave={hideShowCartQuantityInput}>
+          <Icon >
+            <ShoppingCartOutlined 
+              onMouseOver={updateShowCartQuantityInput} 
+              onClick={() => {addItemToCart({...props.product, quantity: cartQuantity})}} />
           </Icon>
+          {(showCartQuantityInput) ? <CartQuantityInput onChange={updateQuantity} placeholder="1"/> :  null}
           <Icon>
             <SearchOutlined />
           </Icon>
