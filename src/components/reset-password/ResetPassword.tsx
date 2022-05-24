@@ -1,13 +1,11 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -17,8 +15,6 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { InputAdornment} from '@material-ui/core';
 import styles from './VisibilityIcon.module.css';
 import { apiResetPassword } from '../../remote/e-commerce-api/authService';
-
-const theme = createTheme();
 
 export default function ResetPassword(){
 
@@ -69,9 +65,7 @@ export default function ResetPassword(){
     };
 
     return (
-        <ThemeProvider theme={theme}>
           <Container component="main" maxWidth="xs">
-            <CssBaseline />
             <Box
               sx={{
                 marginTop: 8,
@@ -141,6 +135,5 @@ export default function ResetPassword(){
               </Box>
             </Box>
           </Container>
-        </ThemeProvider>
       );
 }

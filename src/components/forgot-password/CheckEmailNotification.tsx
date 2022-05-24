@@ -1,10 +1,8 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import styles from '../reset-password/SuccessBox.module.css'
 import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import Link from '@mui/material/Link';
@@ -12,60 +10,55 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
-const theme = createTheme();
-
 export default function CheckEmailNotification(){
 
     const {state}:any = useLocation();
     const email= state['email'] as any;
 
-    return(        
-        <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Box className={styles.SuccessBox}
-                sx={{
-                border: '1px solid #1565c0',
-                borderRadius:3,
-                p:3,
-                marginTop: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                }}
+    return(  
+        <Container component="main" maxWidth="xs">
+        <Box className={styles.SuccessBox}
+            sx={{
+            border: '1px solid #1565c0',
+            borderRadius:3,
+            p:3,
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            }}
+        >
+            <div className={styles.successCheckMark}>
+                <MarkEmailReadIcon color ='success' fontSize='inherit'/>
+            </div>
+            <Box>
+            <Typography component="h1" variant="h5" align="center">
+                    {email}
+            </Typography>
+            <div className={styles.successTextBox}>
+                <br />
+                    You will receive instructions to reset your password if the email address you entered is registered.
+                <br />
+            </div>
+            <Button
+                href="/"      
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
             >
-                <div className={styles.successCheckMark}>
-                    <MarkEmailReadIcon color ='success' fontSize='inherit'/>
-                </div>
-                <Box>
-                <Typography component="h1" variant="h5" align="center">
-                        {email}
+            Ok
+            </Button>
+            <FormHelperText>
+                <Typography align="center" variant='inherit'>
+                    Didn't get the email? If it doesn't arrive soon, check your spam folder or&nbsp;
+                    <Link href="/forgot-password" underline="hover">
+                        {"send the email again."}
+                    </Link>
                 </Typography>
-                <div className={styles.successTextBox}>
-                    <br />
-                        You will receive instructions to reset your password if the email address you entered is registered.
-                    <br />
-                </div>
-                <Button
-                    href="/"      
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                >
-                Ok
-                </Button>
-                <FormHelperText>
-                    <Typography align="center" variant='inherit'>
-                        Didn't get the email? If it doesn't arrive soon, check your spam folder or&nbsp;
-                        <Link href="/forgot-password" underline="hover">
-                            {"send the email again."}
-                        </Link>
-                    </Typography>
-                </FormHelperText>
-                </Box>
+            </FormHelperText>
             </Box>
-        </Container>
-      </ThemeProvider>
+        </Box>
+    </Container>
     );
 }
