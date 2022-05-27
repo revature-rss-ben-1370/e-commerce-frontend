@@ -3,6 +3,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { KeyboardEvent } from 'react';
 import { apiGetFilteredProducts } from '../../remote/e-commerce-api/productService';
+import { Button, darken } from '@material-ui/core';
+import ButtonBase from '@mui/material/ButtonBase';
 
 
 
@@ -12,12 +14,19 @@ export default function SearchBar(props: any) {
 
   const onProductSearch = props.onProductSearch;
 
+  async function getFilteredRequest() {
+    const response = await apiGetFilteredProducts(searchParam);
+    onProductSearch(response.payload);
+  }
+
+  async function onIconSearch(event: React.MouseEvent) {
+    console.log("test");
+    await getFilteredRequest();
+  }
+
   async function onSearch(event: KeyboardEvent) {
     if (event.key === "Enter") {
-      const response = await apiGetFilteredProducts(searchParam);
-      console.log(response.status);
-      console.log(response.payload);
-      onProductSearch(response.payload);
+      await getFilteredRequest();
     }
   }
 
@@ -28,17 +37,17 @@ export default function SearchBar(props: any) {
   const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: "#b9b9ba",
+    backgroundColor: theme.palette.primary.dark,
     '&:hover': {
       backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
-    marginRight: theme.spacing(2),
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(3),
       width: 'auto',
     },
+    display: 'flex'
   }));
 
   const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -65,6 +74,16 @@ export default function SearchBar(props: any) {
     },
   }));
 
+  const SearchButton = styled('div')(({ theme }) => ({
+    cursor: 'pointer',
+    backgroundColor: darken(theme.palette.primary.dark, .2),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    padding: theme.spacing(0, 1),
+    borderRadius: theme.shape.borderRadius,
+  }));
+
   return (<>
     <Search>
       <SearchIconWrapper>
@@ -76,6 +95,9 @@ export default function SearchBar(props: any) {
         onKeyUp={onSearch}
         onChange={onInputChanged}
       />
+      <SearchButton onClick={onIconSearch}>
+        <p>Search</p>
+      </SearchButton>
     </Search>
   </>)
 }

@@ -18,7 +18,7 @@ const Wrapper = styled.div`
 `;
 
 const Left = styled.div`
-  flex: 1;
+  flex: 3;
   display: flex;
   align-items: center;
 `;
@@ -30,6 +30,13 @@ const Right = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+`;
+
+const Middle = styled.div`
+  flex:3;
+  display:flex;
+  align-items:right;
   justify-content: flex-end;
 `;
 
@@ -54,9 +61,10 @@ const Navbar = (props: any) => {
         <Left>
           <Logo className="revOrange" onClick={() => { navigate('/') }}>Revature Swag Shop</Logo>
         </Left>
-
-        <Right>
+        <Middle>
           <SearchBar onProductSearch={onSearchUpdate} />
+        </Middle>
+        <Right>
           <MenuItem onClick={() => { navigate('/register') }}>REGISTER</MenuItem>
           <MenuItem onClick={() => { navigate('/login') }}>SIGN IN</MenuItem>
           <MenuItem onClick={() => { navigate('/cart') }}>
