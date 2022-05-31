@@ -35,7 +35,7 @@ export default function ForgotPassword(){
             alignItems: 'center',
           }}
         >
-        <Avatar sx={{ m: 1, bgcolor:'secondary.main' }}>
+        <Avatar sx={{ m: 1,  bgcolor: '#F26925' }}>
           < MailLockIcon/>
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -59,13 +59,13 @@ export default function ForgotPassword(){
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2, }}
+          sx={{ mt: 3, mb: 2,  bgcolor: '#72A4C2' }}
         >
           Send
         </Button>
         <Grid container>
           <Grid item>
-            <Link href="/login"variant="body2" style={{ textDecoration: 'none' }}>
+            <Link href="/login"variant="body2" style={{ textDecoration: 'none' }} color="#72A4C2">
               <ArrowBackIosIcon fontSize = 'inherit'/>
               {"Back to sign in"}
             </Link>  

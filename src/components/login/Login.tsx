@@ -11,9 +11,15 @@ import Container from '@mui/material/Container';
 import { apiLogin } from '../../remote/e-commerce-api/authService';
 import { useNavigate } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { InputAdornment} from '@material-ui/core';
+import styles from '../reset-password/VisibilityIcon.module.css';
 
 export default function Login() {
   const navigate = useNavigate();
+
+  const[visibleIcon1,setVisibleIcon1] = React.useState(true);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,7 +39,7 @@ export default function Login() {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        <Avatar sx={{ m: 1,  bgcolor: '#F26925' }}>
           < LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -56,13 +62,24 @@ export default function Login() {
             fullWidth
             name="password"
             label="Password"
-            type="password"
+            type={visibleIcon1? 'password' : 'text'}
             id="password"
             autoComplete="current-password"
+            InputProps={{
+              endAdornment: (
+                visibleIcon1?
+                <InputAdornment position="end" >
+                  <VisibilityIcon className={styles.eye} onClick={()=> setVisibleIcon1(!visibleIcon1)}/>
+                </InputAdornment>:
+                <InputAdornment position="end">
+                  <VisibilityOffIcon className={styles.eye} onClick={()=> setVisibleIcon1(!visibleIcon1)}/>
+                </InputAdornment>
+              )
+            }}
           />
           <Grid container>
             <Grid item>
-              <Link href="/forgot-password" variant="body2" style={{ textDecoration: 'none' }}>
+              <Link href="/forgot-password" variant="body2" color="#72A4C2" style={{ textDecoration: 'none' }}>
                 {"Forgot your password?"}
               </Link>
             </Grid>
@@ -71,13 +88,13 @@ export default function Login() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2,  bgcolor: '#72A4C2' }}
           >
             Sign In
           </Button>
           <Grid container>
             <Grid item>
-              <Link href="register" variant="body2">
+              <Link href="register" variant="body2" color="#72A4C2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
