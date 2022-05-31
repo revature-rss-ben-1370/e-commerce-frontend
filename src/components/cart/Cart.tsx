@@ -145,7 +145,7 @@ export const Cart = () => {
    * Removes product from {@link CartContext}
    * @param {number} id - id of product to be removed
    */
-   function removeItemFromCart (id: number) {
+  function removeItemFromCart(id: number) {
     const newCart = [...cart].filter(p => id !== p.id)
     setCart(newCart)
   }
@@ -159,13 +159,13 @@ export const Cart = () => {
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>
-          <TopButton onClick={() => {navigate('/')}}>CONTINUE SHOPPING</TopButton>
-          <TopButton onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</TopButton>
+          <TopButton onClick={() => { navigate('/') }}>CONTINUE SHOPPING</TopButton>
+          <TopButton onClick={() => { navigate('/checkout') }}>CHECKOUT NOW</TopButton>
         </Top>
         <Bottom>
           <Info>
             {
-              cart.map((product)=> (
+              cart.map((product) => (
                 <>
                   <Product>
                     <ProductDetail>
@@ -182,12 +182,12 @@ export const Cart = () => {
                     <PriceDetail>
                       <ProductAmountContainer>
                         <ProductAmount> {product.quantity} </ProductAmount>
-                        <MuiButton endIcon={<RemoveShoppingCartIcon />} variant="outlined" color="error" onClick={() => {removeItemFromCart(product.id)}}>Remove</MuiButton>
+                        <MuiButton endIcon={<RemoveShoppingCartIcon />} variant="outlined" color="error" onClick={() => { removeItemFromCart(product.id) }}>Remove</MuiButton>
                       </ProductAmountContainer>
-                      <ProductPrice>$ {product.sale?product.price-(product.price *(product.saleRate/100)):product.price}</ProductPrice>         
+                      <ProductPrice>$ {(product.sale ? product.price - (product.price * (product.saleRate / 100)) : product.price).toFixed(2)}</ProductPrice>
                     </PriceDetail>
                   </Product>
-                  <Hr/>
+                  <Hr />
                 </>
               ))
             }
@@ -197,10 +197,10 @@ export const Cart = () => {
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
               <SummaryItemPrice>${Number(
-                cart.filter(product=>!product.sale).reduce<number>((total, product) => total + product.price * product.quantity, 0)+
-                cart.filter(product=>product.sale).reduce<number>((total, product) => total + 
-                  (product.price-(product.price *(product.saleRate/100))) * product.quantity, 0)
-              )}
+                cart.filter(product => !product.sale).reduce<number>((total, product) => total + product.price * product.quantity, 0) +
+                cart.filter(product => product.sale).reduce<number>((total, product) => total +
+                  (product.price - (product.price * (product.saleRate / 100))) * product.quantity, 0)
+              ).toFixed(2)}
               </SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
@@ -214,13 +214,13 @@ export const Cart = () => {
             <SummaryItem>
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>${Number(
-                cart.filter(product=>!product.sale).reduce<number>((total, product) => total + product.price * product.quantity, 0)+
-                cart.filter(product=>product.sale).reduce<number>((total, product) => total + 
-                  (product.price-(product.price *(product.saleRate/100))) * product.quantity, 0)
-              )}
+                cart.filter(product => !product.sale).reduce<number>((total, product) => total + product.price * product.quantity, 0) +
+                cart.filter(product => product.sale).reduce<number>((total, product) => total +
+                  (product.price - (product.price * (product.saleRate / 100))) * product.quantity, 0)
+              ).toFixed(2)}
               </SummaryItemPrice>
             </SummaryItem>
-            <Button onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</Button>
+            <Button onClick={() => { navigate('/checkout') }}>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
       </Wrapper>
