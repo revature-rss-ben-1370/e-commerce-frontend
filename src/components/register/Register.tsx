@@ -10,9 +10,15 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { apiRegister } from '../../remote/e-commerce-api/authService';
 import { useNavigate } from 'react-router-dom';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { InputAdornment} from '@material-ui/core';
+import styles from '../reset-password/VisibilityIcon.module.css';
 
 export default function Register() {
   const navigate = useNavigate();
+  const[visibleIcon1,setVisibleIcon1] = React.useState(true);
+
   const defaultFirstNameHelper = "Please enter a valid first name.";
   const defaultLastNameHelper = "Please enter a valid last name.";
   const defaultPasswordHelper = "Please enter a password containing at least 8 characters containing at least: an UPPERCASE, lowercase, number and special character.";
@@ -157,7 +163,7 @@ export default function Register() {
           alignItems: 'center'
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        <Avatar sx={{ m: 1, bgcolor: '#F26925'}}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
@@ -211,12 +217,23 @@ export default function Register() {
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={visibleIcon1? 'password' : 'text'}
                 id="password"
                 autoComplete="new-password"
                 onChange={checkValidPass}
                 error={passwordError}
                 helperText={passwordHelper}
+                InputProps={{
+                  endAdornment: (
+                    visibleIcon1?
+                    <InputAdornment position="end" >
+                      <VisibilityIcon className={styles.eye} onClick={()=> setVisibleIcon1(!visibleIcon1)}/>
+                    </InputAdornment>:
+                    <InputAdornment position="end">
+                      <VisibilityOffIcon className={styles.eye} onClick={()=> setVisibleIcon1(!visibleIcon1)}/>
+                    </InputAdornment>
+                  )
+                }}
               />
             </Grid>
           </Grid>
@@ -224,13 +241,13 @@ export default function Register() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, bgcolor: '#72A4C2' }}
           >
             Sign Up
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="login" variant="body2">
+              <Link href="login" variant="body2" color="#72A4C2">
                 Already have an account? Sign in
               </Link>
             </Grid>

@@ -19,7 +19,7 @@ export default function CheckEmailNotification(){
         <Container component="main" maxWidth="xs">
         <Box className={styles.SuccessBox}
             sx={{
-            border: '1px solid #1565c0',
+            border: '1px solid #72A4C2',
             borderRadius:3,
             p:3,
             marginTop: 8,
@@ -29,7 +29,7 @@ export default function CheckEmailNotification(){
             }}
         >
             <div className={styles.successCheckMark}>
-                <MarkEmailReadIcon color ='success' fontSize='inherit'/>
+                <MarkEmailReadIcon fontSize='inherit'/>
             </div>
             <Box>
             <Typography component="h1" variant="h5" align="center">
@@ -45,14 +45,14 @@ export default function CheckEmailNotification(){
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, bgcolor: '#72A4C2' }}
             >
             Ok
             </Button>
             <FormHelperText>
-                <Typography align="center" variant='inherit'>
+                <Typography align="center" variant='body2'>
                     Didn't get the email? If it doesn't arrive soon, check your spam folder or&nbsp;
-                    <Link href="/forgot-password" underline="hover">
+                    <Link href="/forgot-password" color="#72A4C2" underline="hover">
                         {"send the email again."}
                     </Link>
                 </Typography>
