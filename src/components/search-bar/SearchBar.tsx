@@ -41,6 +41,7 @@ export default function SearchBar(props: any) {
     borderColor: theme.palette.primary.light,
     borderRadius: theme.shape.borderRadius,
     color: theme.palette.primary.contrastText,
+
     '&:hover': {
       backgroundColor:
         sessionStorage.getItem('colorMode') === 'lightMode'
