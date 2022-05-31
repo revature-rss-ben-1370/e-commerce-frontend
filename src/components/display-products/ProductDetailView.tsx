@@ -38,7 +38,7 @@ export default function ProductDetailView(props:productProps){
       >
         <DialogTitle>{props.product.name}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{`$ ${props.product.price.toFixed(2)}`}</DialogContentText>
+          <DialogContentText>${props.product.sale?(props.product.price-(props.product.price *(props.product.saleRate/100))).toFixed(2):props.product.price.toFixed(2)}</DialogContentText>
           <Box
             component="img"
             sx={{
