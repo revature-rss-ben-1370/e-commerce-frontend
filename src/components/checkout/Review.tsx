@@ -22,7 +22,7 @@ interface reviewProps {
 
 export default function Review(props: reviewProps) {
 
-  const {cart, setCart} = React.useContext(CartContext)
+  const { cart, setCart } = React.useContext(CartContext)
 
   const handleSubmit = (event: React.MouseEvent) => {
     event.preventDefault();
@@ -44,13 +44,17 @@ export default function Review(props: reviewProps) {
         {cart.map((product) => (
           <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
             <ListItemText primary={`${product.name} x${product.quantity}`} secondary={product.description} />
-            <Typography variant="body2">{product.price * product.quantity}</Typography>
+            <Typography variant="body2">{(product.sale ? (product.price - (product.price * (product.saleRate / 100))) : product.price * product.quantity).toFixed(2)}</Typography>
           </ListItem>
         ))}
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            $ {cart.reduce<number>((total, product) => total + product.price * product.quantity, 0)}
+            $ {Number(
+              cart.filter(product => !product.sale).reduce<number>((total, product) => total + product.price * product.quantity, 0) +
+              cart.filter(product => product.sale).reduce<number>((total, product) => total +
+                (product.price - (product.price * (product.saleRate / 100))) * product.quantity, 0)
+            ).toFixed(2)}
           </Typography>
         </ListItem>
       </List>
@@ -60,7 +64,7 @@ export default function Review(props: reviewProps) {
             Shipping
           </Typography>
           <Typography gutterBottom>{`${props.address.firstName} ${props.address.lastName}`}</Typography>
-          <Typography gutterBottom>{`${props.address.address1}${props.address.address2? ', ' + props.address.address2: ''}, ${props.address.city}, ${props.address.state} , ${props.address.zip}, ${props.address.country}`}</Typography>
+          <Typography gutterBottom>{`${props.address.address1}${props.address.address2 ? ', ' + props.address.address2 : ''}, ${props.address.city}, ${props.address.state} , ${props.address.zip}, ${props.address.country}`}</Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>

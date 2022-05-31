@@ -31,9 +31,11 @@ import { useTheme } from '@mui/material/styles'
   `;
   
   const Container = styled.div`
-    background: ${sessionStorage.getItem('colorMode') === 'lightMode' ? '#f5fbfd' : '#474C55'};
+    background: ${sessionStorage.getItem('colorMode') === 'lightMode' ? '#e5ebed' : '#474C55'};
+    border-radius: 5px;
     flex: 1;
-    margin: 5px;
+    padding-top:5px;
+    padding-bottom:5px;
     min-width: 280px;
     height: 350px;
     display: flex;
@@ -84,25 +86,25 @@ import { useTheme } from '@mui/material/styles'
     padding: 10px;
   `;
 
-  const SaleBanner = styled.div`
-    background-color:rgba(255,0,0,.8);
-    border-radius: 5px;
-    color : white;
-    padding: 5px;
-  `;
+   const SaleBanner = styled.div`
+      background-color: ${sessionStorage.getItem('colorMode') === 'lightMode' ? '#F26925' : '#72A4C2'};
+      border-radius: 5px;
+      color : white;
+      padding: 5px;
+    `;
 
   const NewPrice = styled.div`
 
   `;
 
   const OldPrice = styled.div`
-    color: red;
+    color: ${sessionStorage.getItem('colorMode') === 'lightMode' ? '#F26925' : '#72A4C2'};
     text-decoration: line-through;
     padding: 10px;
   `;
 
   const CartQuantityInput = styled.input`
-    width: 40px
+    width: 40px;
   `;
 
   const InventoryAlert = Snackbar;
@@ -120,6 +122,7 @@ import { useTheme } from '@mui/material/styles'
     const [showCartQuantityInput, setShowCartQuantityInput] = useState(false);
     const [showInventoryAlert, setShowInventoryAlert] = useState(false);
     const [inventoryAlertMessage, setInventoryAlertMessage] = useState("");
+    const [openSnack, setOpenSnack] = useState(false);
 
     const handleOpen = () => {
       setOpen(true);
@@ -127,6 +130,14 @@ import { useTheme } from '@mui/material/styles'
   
     const handleClose = () => {
       setOpen(false);
+    };
+
+    const handleClick = () => {
+      addItemToCart({...props.product, quantity: cartQuantity});
+    };
+  
+    const handleCloseSnack = () => {
+      setOpenSnack(false);
     };
 
     const alertCloseAction = (
@@ -159,9 +170,9 @@ import { useTheme } from '@mui/material/styles'
   
   function salePrice(){
     const product = props.product
-    const sale = <><SaleBanner>Sale {product.saleRate}% Off</SaleBanner><OldPrice>${product.price}</OldPrice>
-    <NewPrice>${product.price-(product.price *(product.saleRate/100))}</NewPrice></>
-    return product.sale? sale: "$"+product.price
+    const sale = <><SaleBanner>Sale {product.saleRate}% Off</SaleBanner><OldPrice>${product.price.toFixed(2)}</OldPrice>
+    <NewPrice>${(product.price-(product.price *(product.saleRate/100))).toFixed(2)}</NewPrice></>
+    return product.sale? sale: "$"+product.price.toFixed(2);
 }
 
     const addItemToCart = (product: Product) => {      
@@ -183,6 +194,7 @@ import { useTheme } from '@mui/material/styles'
         if (index === -1){ 
           newCart.push(product)
           setCart(newCart)
+          setOpenSnack(true)
         }
         else{
           const newCartQuantity = newCart[index].quantity + product.quantity
@@ -193,6 +205,7 @@ import { useTheme } from '@mui/material/styles'
           } else{
             newCart[index].quantity = newCartQuantity
             setCart(newCart)
+            setOpenSnack(true)
           }
         }
       }
@@ -210,7 +223,7 @@ import { useTheme } from '@mui/material/styles'
               onMouseOver={updateShowCartQuantityInput} 
               onClick={() => {addItemToCart({...props.product, quantity: cartQuantity})}} />
           </Icon>
-          {(showCartQuantityInput) ? <CartQuantityInput onChange={updateQuantity} placeholder="1"/> :  null}
+          {(showCartQuantityInput) ? <CartQuantityInput type="number" min="1" onChange={updateQuantity} placeholder="1"/> :  null}
           <Icon>
             {
               // Button should creates pop up to display details for the product clicked on
@@ -218,7 +231,7 @@ import { useTheme } from '@mui/material/styles'
             <SearchOutlined onClick={handleOpen}/>
           </Icon>
         </Info>
-        <ProductDetailView product={props.product} close={handleClose} open={open}/>
+        <ProductDetailView product={props.product} close={handleClose} open={open} handleClick={handleClick}/>
         <Price>{salePrice()}</Price>
         <InventoryAlert 
              style={{ height: "100%"}}
@@ -232,6 +245,12 @@ import { useTheme } from '@mui/material/styles'
             message= {inventoryAlertMessage}
             action={alertCloseAction}
           />
+          <Snackbar
+            open={openSnack}
+            onClose={handleCloseSnack}
+            autoHideDuration={3000}
+            message="Added to Cart"
+        />
       </Container>
     );
   };

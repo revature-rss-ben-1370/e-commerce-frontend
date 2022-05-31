@@ -22,43 +22,66 @@ export default function ResetPassword(){
     
     const {id} = useParams();
 
-    const [inputErrors, setInputErrors] = useState({
-        misMatch:'',
-    })
+    const [error, setError] = useState({
+      errorMessage:'',
+  })
 
-    const[showErrorIcon, setShowErrorIcon] = React.useState(false);
+    const[showErrorIcon, setShowErrorIcon]  = React.useState(false);
     const[visibleIcon1,setVisibleIcon1] = React.useState(true);
     const[visibleIcon2,setVisibleIcon2] = React.useState(true);  
 
     /**
-     * Checks two password input fields for a mismatch 
+     * Checks for an input error
      * @param password {string} -first password input field
      * @param passwordVerify {string} - Second password input field
-     * @returns {boolean} - true if the two passwords are mismatched, false if they are the same.
+     * @returns {boolean} - true if there is an input error, false if not.
      */
-    function checkMismatch (password:string, passwordVerify:string):boolean { 
-        let error = false; 
-        if(password !== passwordVerify){
-            setInputErrors(state=>({...state, misMatch: 'Please make sure that both passwords match.'}));
-            setShowErrorIcon(true);
-            error = true;
-        } else{
-          //clear errors if the two passwords are the same
-          setInputErrors(state=>({...state, misMatch: ''}));
-          setShowErrorIcon(false);
-          error = false;
-        }
-        return error;
+    function checkInputError (password:string, passwordVerify:string):boolean { 
+      let error = false; 
+      //first check if the two fields are the same 
+      if(password !== passwordVerify){
+          setError(state=>({...state, errorMessage: 'Please make sure that both passwords match.'}));
+          error = true;
+      } else {
+        //Now that we know they are both the same, now check if password meets requirements
+        error = checkValidPass(password);
+      }
+      //show error icon if there is an error (if there is an error, the error message will be displayed as well)
+      setShowErrorIcon(error);
+      return error;
     }
+
+    /**
+     * Checks if the password is valid and contains at least 8 characters, an uppercase, lowercase, number and special character
+     * @param password {string} - takes in a password to check 
+     * @returns {boolean} - true if there is an input error, false if not
+     * 
+     */
+    
+    function checkValidPass(password:string):boolean{
+      const rege = new RegExp(".*[A-Z].*[a-z].*[0-9].*[!@#$%^&*()_+].*");
+      const error = !rege.exec(password);
+      if(error){
+        setError(state=>({...state, errorMessage: 'Password must be at least 8 characters containing at least an uppercase, a lowercase, and one of the following special characters: !@#$%^&*()_+].*'}));
+      }else{
+        setError(state=>({...state, errorMessage: ''}));
+      }
+      return error;
+    } 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         //check if the two password inputs are the same before submitting
-        if(!checkMismatch(`${data.get('password')}`, `${data.get('passwordVerify')}`)){
+        if(!checkInputError(`${data.get('password')}`, `${data.get('passwordVerify')}`)){
           const response = await apiResetPassword(parseInt(id!),`${data.get('password')}`);
-          console.log(response.payload);
-          if(response.status >= 200 && response.status < 300){
+          if(response.status === 205){
+            setError(state=>({...state, errorMessage: 'Your password reset link has expired. Password reset links last 24 hours. Please request a new one.'}));
+            setShowErrorIcon(true);
+          } else if(response.status >= 200 && response.status < 300){
+            console.log(response);
+            setError(state=>({...state, errorMessage: ''}));
+            setShowErrorIcon(false);
             navigate('/reset-password-success');
           }
         }
@@ -74,7 +97,7 @@ export default function ResetPassword(){
                 alignItems: 'center',
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <Avatar sx={{ m: 1,  bgcolor: '#F26925' }}>
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
@@ -122,13 +145,13 @@ export default function ResetPassword(){
                   }}
                 />
                 <FormHelperText error>
-                  {showErrorIcon ? <ErrorOutlineOutlinedIcon color ='error' fontSize = 'inherit'/> :null} {inputErrors.misMatch}
+                  {showErrorIcon ? <ErrorOutlineOutlinedIcon color ='error' fontSize = 'inherit'/> :null} {error.errorMessage}
                 </FormHelperText>
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
+                  sx={{ mt: 3, mb: 2,  bgcolor: '#72A4C2' }}
                 >
                   Reset Password
                 </Button>

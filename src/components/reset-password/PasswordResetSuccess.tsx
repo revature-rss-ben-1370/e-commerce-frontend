@@ -19,7 +19,7 @@ export default function ResetPasswordSuccess(){
         <Container component="main" maxWidth="xs">
         <Box className={styles.SuccessBox}
             sx={{
-            border: '1px solid #1565c0',
+            border: '1px solid #72A4C2',
             borderRadius:3,
             p:3,
             marginTop: 8,
@@ -29,7 +29,7 @@ export default function ResetPasswordSuccess(){
             }}
         >
             <div className={styles.successCheckMark}>
-                <CheckCircleOutlineIcon color ='success' fontSize='inherit'/>
+                <CheckCircleOutlineIcon fontSize='inherit'/>
             </div>
             <Typography component="h1" variant="h4">
             Success!
@@ -48,7 +48,7 @@ export default function ResetPasswordSuccess(){
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 2, bgcolor: '#72A4C2' }}
             >
                 Sign in now
             </Button>

@@ -1,7 +1,7 @@
 /*  
  * This code is intended to 
  * Authors: Grayson Howard, Elenor Johnson, Patrick Rwamasirabo
- * Last Modified: 05/20
+ * Last Modified: 05/27
  */ 
 
 import Product from "../../models/Product"
@@ -13,11 +13,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import * as React from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import { useState } from "react";
 
 interface productProps {
   product: Product,
   close: ()=>void,
-  open: boolean
+  open: boolean,
+  handleClick: ()=>void
 }
 
 export default function ProductDetailView(props:productProps){
@@ -35,7 +38,7 @@ export default function ProductDetailView(props:productProps){
       >
         <DialogTitle>{props.product.name}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{`$ ${props.product.price.toFixed(2)}`}</DialogContentText>
+          <DialogContentText>${props.product.sale?(props.product.price-(props.product.price *(props.product.saleRate/100))).toFixed(2):props.product.price.toFixed(2)}</DialogContentText>
           <Box
             component="img"
             sx={{
@@ -53,7 +56,8 @@ export default function ProductDetailView(props:productProps){
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={props.close}>Close</Button>
+            <Button 
+              onClick={() => {props.handleClick()}} >Add to Cart</Button>
         </DialogActions>
       </Dialog>
     </React.Fragment>

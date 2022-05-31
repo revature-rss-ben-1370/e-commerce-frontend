@@ -5,6 +5,7 @@ import { CartContext } from "../../context/cart.context";
 import Navbar from "../navbar/Narbar";
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import { Button as MuiButton } from "@mui/material";
+import { integerPropType } from "@mui/utils";
 
 const Container = styled.div``;
 
@@ -41,11 +42,10 @@ const Info = styled.div`
 
 const Product = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 `;
 
 const ProductDetail = styled.div`
-  flex: 2;
   display: flex;
 `;
 
@@ -73,7 +73,6 @@ const ProductColor = styled.div`
 const ProductSize = styled.span``;
 
 const PriceDetail = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -82,7 +81,7 @@ const PriceDetail = styled.div`
 
 const ProductAmountContainer = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
 `;
 
@@ -92,6 +91,11 @@ const ProductAmount = styled.div`
 `;
 
 const ProductPrice = styled.div`
+  font-size: 30px;
+  font-weight: 200;
+`;
+
+const SalePrice = styled.div`
   font-size: 30px;
   font-weight: 200;
 `;
@@ -139,12 +143,13 @@ export const Cart = () => {
    * Removes product from {@link CartContext}
    * @param {number} id - id of product to be removed
    */
-   function removeItemFromCart (id: number) {
+  function removeItemFromCart(id: number) {
     const newCart = [...cart].filter(p => id !== p.id)
     setCart(newCart)
   }
 
   const navigate = useNavigate();
+
 
   return (
     <Container>
@@ -152,13 +157,13 @@ export const Cart = () => {
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>
-          <TopButton onClick={() => {navigate('/')}}>CONTINUE SHOPPING</TopButton>
-          <TopButton onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</TopButton>
+          <TopButton onClick={() => { navigate('/') }}>CONTINUE SHOPPING</TopButton>
+          <TopButton onClick={() => { navigate('/checkout') }}>CHECKOUT NOW</TopButton>
         </Top>
         <Bottom>
           <Info>
             {
-              cart.map((product)=> (
+              cart.map((product) => (
                 <>
                   <Product>
                     <ProductDetail>
@@ -174,13 +179,13 @@ export const Cart = () => {
                     </ProductDetail>
                     <PriceDetail>
                       <ProductAmountContainer>
-                        <ProductAmount> {product.quantity} </ProductAmount>
-                        <MuiButton endIcon={<RemoveShoppingCartIcon />} variant="outlined" color="error" onClick={() => {removeItemFromCart(product.id)}}>Remove</MuiButton>
+                        <ProductAmount> Qty: {product.quantity} </ProductAmount>
+                        <MuiButton sx={{marginLeft: 5}} endIcon={<RemoveShoppingCartIcon />} variant="outlined" color="error" onClick={() => {removeItemFromCart(product.id)}}>Remove</MuiButton>
                       </ProductAmountContainer>
-                      <ProductPrice>$ {product.price}</ProductPrice>
+                      <ProductPrice>$ {product.sale ? (product.price - (product.price * (product.saleRate / 100))).toFixed(2) : product.price.toFixed(2)}</ProductPrice>
                     </PriceDetail>
                   </Product>
-                  <Hr/>
+                  <Hr />
                 </>
               ))
             }
@@ -189,8 +194,11 @@ export const Cart = () => {
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 
-                  {cart.reduce<number>((total, product) => total + product.price * product.quantity, 0)}
+              <SummaryItemPrice>${Number(
+                cart.filter(product => !product.sale).reduce<number>((total, product) => total + product.price * product.quantity, 0) +
+                cart.filter(product => product.sale).reduce<number>((total, product) => total +
+                  (product.price - (product.price * (product.saleRate / 100))) * product.quantity, 0)
+              ).toFixed(2)}
               </SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
@@ -203,11 +211,14 @@ export const Cart = () => {
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 
-                {cart.reduce<number>((total, product) => total + product.price * product.quantity, 0)}
+              <SummaryItemPrice>${Number(
+                cart.filter(product => !product.sale).reduce<number>((total, product) => total + product.price * product.quantity, 0) +
+                cart.filter(product => product.sale).reduce<number>((total, product) => total +
+                  (product.price - (product.price * (product.saleRate / 100))) * product.quantity, 0)
+              ).toFixed(2)}
               </SummaryItemPrice>
             </SummaryItem>
-            <Button onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</Button>
+            <Button onClick={() => { navigate('/checkout') }}>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
       </Wrapper>
