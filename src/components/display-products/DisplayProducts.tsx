@@ -7,15 +7,31 @@ import Navbar from '../navbar/Narbar';
 import { ProductCard } from "./ProductCard";
 
 const Container = styled.div`
-    padding: 20px;
     display: flex;
+    background-color: ${sessionStorage.getItem('colorMode') === 'lightMode' ? '#e5ebed' : '#474C55'};
     flex-wrap: wrap;
     justify-content: space-between;
 `;
 
-const Heading = styled.div`
-    padding: 20px;
+const HR = styled.div`
+    height:10px;
+    background-color: ${sessionStorage.getItem('colorMode') === 'lightMode' ? '#F26925' : '#72A4C2'};
+`;
+
+const Heading = styled.h1`
+font-family: "Roboto","Helvetica","Arial",sans-serif;
+    padding: 5px;
     font-size:x-large;
+    background-color: ${sessionStorage.getItem('colorMode') === 'lightMode' ? '#b5bbbd' : '#272C35'};
+    color: ${sessionStorage.getItem('colorMode') === 'lightMode' ? 'black' : 'white'};
+    border-radius:10px;
+    margin-top: 100px;
+    width: 20%;
+    text-align:center;
+    position: relative;
+    top: 42px;
+    right:-70%;
+    z-index:99;
 `;
 
 export const DisplayProducts = () => {
@@ -37,65 +53,17 @@ export const DisplayProducts = () => {
     setProducts(productList);
   }
 
-  // const products: Product[] = [
-  //   {
-  //       id:1,
-  //       image:"https://d3o2e4jr3mxnm3.cloudfront.net/Mens-Jake-Guitar-Vintage-Crusher-Tee_68382_1_lg.png",
-  //       name: '',
-  //       description: '',
-  //       price: 5,
-  //       quantity: 10,
-  //     },
-  //     {
-  //       id:3,
-  //       image:"https://www.prada.com/content/dam/pradanux_products/U/UCS/UCS319/1YOTF010O/UCS319_1YOT_F010O_S_182_SLF.png",
-  //       name: '',
-  //       description: '',
-  //       price: 5,
-  //       quantity: 10,
-  //     },
-  //     {
-  //       id:4,
-  //       image:"https://www.burdastyle.com/pub/media/catalog/product/cache/7bd3727382ce0a860b68816435d76e26/107/BUS-PAT-BURTE-1320516/1170x1470_BS_2016_05_132_front.png",
-  //       name: '',
-  //       description: '',
-  //       price: 5,
-  //       quantity: 10,
-  //     },
-  //     {
-  //       id:5,
-  //       image:"https://images.ctfassets.net/5gvckmvm9289/3BlDoZxSSjqAvv1jBJP7TH/65f9a95484117730ace42abf64e89572/Noissue-x-Creatsy-Tote-Bag-Mockup-Bundle-_4_-2.png",
-  //       name: '',
-  //       description: '',
-  //       price: 5,
-  //       quantity: 10,
-  //     },
-  //     {
-  //       id:6,
-  //       image:"https://d3o2e4jr3mxnm3.cloudfront.net/Rocket-Vintage-Chill-Cap_66374_1_lg.png",
-  //       name: '',
-  //       description: '',
-  //       price: 5,
-  //       quantity: 10,
-  //     },
-  //     {
-  //       id:8,
-  //       image:"https://www.pngarts.com/files/3/Women-Jacket-PNG-High-Quality-Image.png",
-  //       name: '',
-  //       description: '',
-  //       price: 5,
-  //       quantity: 10,
-  //     },
-  // ]
-
   return (
     <React.Fragment>
         <Navbar onProductSearch={onSearch} />
+
         <Heading>Sale Products</Heading>
+        <HR/>
         <Container>
         {saleProducts.map(item => <ProductCard product={item} key={item.id} />)}
         </Container>
         <Heading>All Products</Heading>
+        <HR/>
         <Container>
         {products.map(item =><ProductCard product={item} key={item.id}/>)}
         </Container>

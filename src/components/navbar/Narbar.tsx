@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Product from "../../models/Product";
 import SearchBar from "../search-bar/SearchBar";
+import logo from "../../logo.png";
 
 const Container = styled.div`
   height: 60px;
@@ -23,9 +24,16 @@ const Left = styled.div`
   align-items: center;
 `;
 
-const Logo = styled.h1`
-  font-weight: bold;
+const Logo = styled.img`
+    padding: 10px 10px 10px 40px;
 `;
+
+const Heading = styled.h1`
+  font-weight: bold;
+  align-self:flex-end;
+  padding-left:10%;
+`;
+
 const Right = styled.div`
   flex: 1;
   display: flex;
@@ -59,7 +67,7 @@ const Navbar = (props: any) => {
     <Container>
       <Wrapper>
         <Left>
-          <Logo className="revOrange" onClick={() => { navigate('/') }}>Revature Swag Shop</Logo>
+          <Logo src={logo} onClick={() => { navigate('/') }}/>
         </Left>
         <Middle>
           <SearchBar onProductSearch={onSearchUpdate} />

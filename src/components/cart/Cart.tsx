@@ -5,6 +5,7 @@ import { CartContext } from "../../context/cart.context";
 import Navbar from "../navbar/Narbar";
 import RemoveShoppingCartIcon from '@mui/icons-material/RemoveShoppingCart';
 import { Button as MuiButton } from "@mui/material";
+import { integerPropType } from "@mui/utils";
 
 const Container = styled.div``;
 
@@ -96,6 +97,11 @@ const ProductPrice = styled.div`
   font-weight: 200;
 `;
 
+const SalePrice = styled.div`
+  font-size: 30px;
+  font-weight: 200;
+`;
+
 const Hr = styled.hr`
   background-color: #eee;
   border: none;
@@ -146,6 +152,7 @@ export const Cart = () => {
 
   const navigate = useNavigate();
 
+
   return (
     <Container>
       <Navbar />
@@ -177,7 +184,7 @@ export const Cart = () => {
                         <ProductAmount> {product.quantity} </ProductAmount>
                         <MuiButton endIcon={<RemoveShoppingCartIcon />} variant="outlined" color="error" onClick={() => {removeItemFromCart(product.id)}}>Remove</MuiButton>
                       </ProductAmountContainer>
-                      <ProductPrice>$ {product.price}</ProductPrice>
+                      <ProductPrice>$ {product.sale?product.price-(product.price *(product.saleRate/100)):product.price}</ProductPrice>         
                     </PriceDetail>
                   </Product>
                   <Hr/>
@@ -189,8 +196,11 @@ export const Cart = () => {
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 
-                  {cart.reduce<number>((total, product) => total + product.price * product.quantity, 0)}
+              <SummaryItemPrice>${Number(
+                cart.filter(product=>!product.sale).reduce<number>((total, product) => total + product.price * product.quantity, 0)+
+                cart.filter(product=>product.sale).reduce<number>((total, product) => total + 
+                  (product.price-(product.price *(product.saleRate/100))) * product.quantity, 0)
+              )}
               </SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
@@ -203,8 +213,11 @@ export const Cart = () => {
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 
-                {cart.reduce<number>((total, product) => total + product.price * product.quantity, 0)}
+              <SummaryItemPrice>${Number(
+                cart.filter(product=>!product.sale).reduce<number>((total, product) => total + product.price * product.quantity, 0)+
+                cart.filter(product=>product.sale).reduce<number>((total, product) => total + 
+                  (product.price-(product.price *(product.saleRate/100))) * product.quantity, 0)
+              )}
               </SummaryItemPrice>
             </SummaryItem>
             <Button onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</Button>

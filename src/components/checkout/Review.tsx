@@ -44,13 +44,17 @@ export default function Review(props: reviewProps) {
         {cart.map((product) => (
           <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
             <ListItemText primary={`${product.name} x${product.quantity}`} secondary={product.description} />
-            <Typography variant="body2">{product.price * product.quantity}</Typography>
+            <Typography variant="body2">{product.sale?(product.price-(product.price *(product.saleRate/100))):product.price * product.quantity}</Typography>
           </ListItem>
         ))}
         <ListItem sx={{ py: 1, px: 0 }}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            $ {cart.reduce<number>((total, product) => total + product.price * product.quantity, 0)}
+            $ {Number(
+                cart.filter(product=>!product.sale).reduce<number>((total, product) => total + product.price * product.quantity, 0)+
+                cart.filter(product=>product.sale).reduce<number>((total, product) => total + 
+                  (product.price-(product.price *(product.saleRate/100))) * product.quantity, 0)
+              )}
           </Typography>
         </ListItem>
       </List>

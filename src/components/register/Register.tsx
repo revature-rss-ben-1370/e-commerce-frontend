@@ -13,32 +13,77 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
   const navigate = useNavigate();
-  const defaultPasswordHelper = "Enter a password containing at least 8 characters containing at least an UPPERCASE, lowercase, number and special character";
+  const defaultFirstNameHelper = "Please enter a valid first name.";
+  const defaultLastNameHelper = "Please enter a valid last name.";
+  const defaultPasswordHelper = "Please enter a password containing at least 8 characters containing at least: an UPPERCASE, lowercase, number and special character.";
+
+  const [firstNameError, setFirstNameError] = React.useState(false);
+  const [firstNameHelper, setFirstNameHelper] = React.useState<String>("");
+
+  const [lastNameError, setLastNameError] = React.useState(false);
+  const [lastNameHelper, setLastNameHelper] = React.useState<String>("");
+
   const [emailError, setEmailError] = React.useState(false);
   const [emailHelper, setEmailHelper] = React.useState<String>("");
+
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordHelper, setPasswordHelper] = React.useState<String>(defaultPasswordHelper);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (emailError || passwordError) return;
+    if (emailError || passwordError || firstNameError || lastNameError) return;
 
     const firstName: String = data.get('firstName')?.valueOf() as String;
     const lastName: String = data.get('lastName')?.valueOf() as String;
     const email: String = data.get('email')?.valueOf() as String;
     const password: String = data.get('password')?.valueOf() as String;
-    if (firstName == null || firstName.trim().length == 0 ||
-      lastName == null || lastName.trim().length == 0)
-      return;
+
     const response = await apiRegister(`${firstName}`, `${lastName}`, `${email}`, `${password}`)
+
     if (response.status >= 200 && response.status < 300) {
       navigate('/login');
       return;
     }
+
     if (response.status === 400) {
       setEmailError(true);
       setEmailHelper("Account with email already exists")
     }
+  };
+
+  const checkValidFirstName = async (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (event.currentTarget.value == null || event.currentTarget.value.trim().length === 0) {
+      setFirstNameError(true);
+      setFirstNameHelper(defaultFirstNameHelper);
+      return;
+    }
+
+    if (event.currentTarget.value.length != event.currentTarget.value.trim().length) {
+      setFirstNameError(true);
+      setFirstNameHelper("Invalid space at beginning or end of first name");
+      return;
+    }
+
+    setFirstNameError(false);
+    setFirstNameHelper("");
+  };
+
+  const checkValidLastName = async (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (event.currentTarget.value == null || event.currentTarget.value.trim().length === 0) {
+      setLastNameError(true);
+      setLastNameHelper(defaultLastNameHelper);
+      return;
+    }
+
+    if (event.currentTarget.value.length != event.currentTarget.value.trim().length) {
+      setLastNameError(true);
+      setLastNameHelper("Invalid space at beginning or end of last name");
+      return;
+    }
+
+    setLastNameError(false);
+    setLastNameHelper("");
   };
 
   const checkValidEmail = async (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -83,7 +128,7 @@ export default function Register() {
     }
     if (!specialRegex.exec(text)) {
       anyErrors = true;
-      newHelper += "\tspecial characters @$!%*?&\n,";
+      newHelper += "\tspecial characters such as @$!%*?&\n,";
     }
     if (text.length < 8) {
       anyErrors = true;
@@ -129,6 +174,9 @@ export default function Register() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                onChange={checkValidFirstName}
+                error={firstNameError}
+                helperText={firstNameHelper}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -139,6 +187,9 @@ export default function Register() {
                 label="Last Name"
                 name="lastName"
                 autoComplete="family-name"
+                onChange={checkValidLastName}
+                error={lastNameError}
+                helperText={lastNameHelper}
               />
             </Grid>
             <Grid item xs={12}>
