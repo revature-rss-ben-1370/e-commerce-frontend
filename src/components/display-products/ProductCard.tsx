@@ -31,9 +31,11 @@ import { useTheme } from '@mui/material/styles'
   `;
   
   const Container = styled.div`
-    background: ${sessionStorage.getItem('colorMode') === 'lightMode' ? '#f5fbfd' : '#474C55'};
+    background: ${sessionStorage.getItem('colorMode') === 'lightMode' ? '#e5ebed' : '#474C55'};
+    border-radius: 5px;
     flex: 1;
-    margin: 5px;
+    padding-top:5px;
+    padding-bottom:5px;
     min-width: 280px;
     height: 350px;
     display: flex;
@@ -84,19 +86,19 @@ import { useTheme } from '@mui/material/styles'
     padding: 10px;
   `;
 
-  const SaleBanner = styled.div`
-    background-color:rgba(255,0,0,.8);
-    border-radius: 5px;
-    color : white;
-    padding: 5px;
-  `;
+   const SaleBanner = styled.div`
+      background-color: ${sessionStorage.getItem('colorMode') === 'lightMode' ? '#F26925' : '#72A4C2'};
+      border-radius: 5px;
+      color : white;
+      padding: 5px;
+    `;
 
   const NewPrice = styled.div`
 
   `;
 
   const OldPrice = styled.div`
-    color: red;
+    color: ${sessionStorage.getItem('colorMode') === 'lightMode' ? '#F26925' : '#72A4C2'};
     text-decoration: line-through;
     padding: 10px;
   `;
