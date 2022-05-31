@@ -42,11 +42,10 @@ const Info = styled.div`
 
 const Product = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
 `;
 
 const ProductDetail = styled.div`
-  flex: 2;
   display: flex;
 `;
 
@@ -74,7 +73,6 @@ const ProductColor = styled.div`
 const ProductSize = styled.span``;
 
 const PriceDetail = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,7 +81,7 @@ const PriceDetail = styled.div`
 
 const ProductAmountContainer = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   margin-bottom: 20px;
 `;
 
@@ -181,8 +179,8 @@ export const Cart = () => {
                     </ProductDetail>
                     <PriceDetail>
                       <ProductAmountContainer>
-                        <ProductAmount> {product.quantity} </ProductAmount>
-                        <MuiButton endIcon={<RemoveShoppingCartIcon />} variant="outlined" color="error" onClick={() => {removeItemFromCart(product.id)}}>Remove</MuiButton>
+                        <ProductAmount> Qty: {product.quantity} </ProductAmount>
+                        <MuiButton sx={{marginLeft: 5}} endIcon={<RemoveShoppingCartIcon />} variant="outlined" color="error" onClick={() => {removeItemFromCart(product.id)}}>Remove</MuiButton>
                       </ProductAmountContainer>
                       <ProductPrice>$ {product.sale?(product.price-(product.price *(product.saleRate/100))).toFixed(2):product.price.toFixed(2)}</ProductPrice>         
                     </PriceDetail>
