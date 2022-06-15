@@ -12,7 +12,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { InputAdornment} from '@material-ui/core';
+import { InputAdornment} from '@mui/material';
 import styles from './VisibilityIcon.module.css';
 import { apiResetPassword } from '../../remote/e-commerce-api/authService';
 

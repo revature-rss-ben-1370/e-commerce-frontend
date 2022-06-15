@@ -2,11 +2,11 @@ import {
     SearchOutlined,
     ShoppingCartOutlined,
     Close
-  } from "@material-ui/icons";
+  } from "@mui/icons-material";
   import { 
     Snackbar,
     IconButton 
-  } from "@material-ui/core";
+  } from "@mui/material";
 import { useState, useContext, ChangeEvent } from "react";
 import styled from "styled-components";
 import { CartContext } from "../../context/cart.context";

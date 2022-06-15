@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import { KeyboardEvent } from 'react';
 import { apiGetFilteredProducts } from '../../remote/e-commerce-api/productService';
-import { Button, darken, lighten } from '@material-ui/core';
+import { Button, darken, lighten } from '@mui/material';
 import ButtonBase from '@mui/material/ButtonBase';
 
 

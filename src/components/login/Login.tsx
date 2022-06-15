@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { InputAdornment} from '@material-ui/core';
+import { InputAdornment} from "@mui/material";
 import styles from '../reset-password/VisibilityIcon.module.css';
 
 export default function Login() {

@@ -1,5 +1,5 @@
-import { Badge } from "@material-ui/core";
-import { ShoppingCartOutlined } from "@material-ui/icons";
+import { Badge } from "@mui/material";
+import { ShoppingCartOutlined } from "@mui/icons-material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
