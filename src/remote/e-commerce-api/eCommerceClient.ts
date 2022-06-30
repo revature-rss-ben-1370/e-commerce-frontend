@@ -5,6 +5,7 @@ import axios from 'axios';
 const eCommerceClient = axios.create({
   withCredentials: true,
   baseURL: 'http://back-end-service.p3-space.svc.cluster.local:5000',
+
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': 'http://localhost:3000',
