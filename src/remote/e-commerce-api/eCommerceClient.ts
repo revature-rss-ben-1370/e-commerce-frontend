@@ -4,7 +4,7 @@ import axios from 'axios';
 // Very simple, but it also doesn't give us much abstraction
 const eCommerceClient = axios.create({
   withCredentials: true,
-  baseURL: 'http://back-end-service:5000',
+  baseURL: 'http://e-commerce-service.p3-space.svc.cluster.local:5000',
 
   headers: {
     'Content-Type': 'application/json',
