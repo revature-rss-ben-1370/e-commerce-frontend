@@ -19,4 +19,13 @@ COPY frontend-nginx.conf /etc/nginx/conf.d
 
 COPY --from=build /workspace/build /usr/share/nginx/html
 
-CMD ["nginx", "-c", "/etc/nginx/conf.d/frontend-nginx.conf"]
+RUN nginx -c /etc/nginx/conf.d/frontend-nginx.conf
+
+
+FROM node:12.18.1
+
+COPY --from=nginx ./ ./
+COPY --from=build ./ ./
+
+CMD ["npm", "install", "-g", "serve"]
+CMD ["serve", "-s", "build"]
