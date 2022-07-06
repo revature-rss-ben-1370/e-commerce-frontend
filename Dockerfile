@@ -1,16 +1,15 @@
-FROM node:12.18.1
+FROM node:12.18.1 AS NPM_BUILD_STAGE
 
 WORKDIR /workspace
 
-copy ./ /workspace
+COPY ./ /workspace
 
 RUN npm install
 
-EXPOSE 3000
+FROM node:12.18.1
 
 RUN npm run build
 
 RUN npm install -g serve
 
 CMD ["serve", "-s", "build"]
-
