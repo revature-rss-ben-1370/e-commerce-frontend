@@ -8,5 +8,9 @@ RUN npm install
 
 EXPOSE 3000
 
-cmd ["npm", "start"]
+RUN npm run build
+
+RUN npm install -g serve
+
+CMD ["serve", "-s", "build"]
 
