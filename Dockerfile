@@ -8,6 +8,8 @@ RUN npm install
 
 FROM node:12.18.1
 
-COPY --from=NPM_BUILD_STAGE /workspace ./
+RUN npm run build
 
-CMD ["npm", "start"]
+RUN npm install -g serve
+
+CMD ["serve", "-s", "build"]
