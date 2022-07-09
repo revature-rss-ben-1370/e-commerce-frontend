@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Build Static Pages') {
             steps {
-                sh 'git clone https://github.com/revature-rss-ben-1370/e-commerce-frontend.git'
+                //sh 'git clone https://github.com/revature-rss-ben-1370/e-commerce-frontend.git'
                 nodejs(nodeJSInstallationName: 'npm') {
                     sh 'npm --version'
                     dir('./e-commerce-frontend'){
